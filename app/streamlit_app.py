@@ -6,6 +6,7 @@ import sys
 import os
 import time
 from datetime import datetime
+import plotly.express as px
 
 # Add project root to Python path
 project_root = Path(__file__).resolve().parent.parent
@@ -102,7 +103,6 @@ def add_home_button():
     """Add a Back to Home button"""
     if st.button("🏠 Back to Home"):
         st.session_state.page = "Home"
-        st.rerun()
 
 def show_loading_page():
     """Show an animated loading screen"""
@@ -252,7 +252,6 @@ def home_page():
         """, unsafe_allow_html=True)
         if st.button("Start Breast Cancer Assessment", key="breast"):
             st.session_state.page = "Breast Cancer"
-            st.rerun()
             
         st.markdown("""
             <div style="
@@ -269,7 +268,6 @@ def home_page():
         """, unsafe_allow_html=True)
         if st.button("Start Heart Disease Assessment", key="heart"):
             st.session_state.page = "Heart Disease"
-            st.rerun()
     
     with col2:
         st.markdown("""
@@ -287,7 +285,6 @@ def home_page():
         """, unsafe_allow_html=True)
         if st.button("Start Diabetes Assessment", key="diabetes"):
             st.session_state.page = "Diabetes"
-            st.rerun()
             
         st.markdown("""
             <div style="
@@ -304,7 +301,6 @@ def home_page():
         """, unsafe_allow_html=True)
         if st.button("Start Parkinson's Assessment", key="parkinsons"):
             st.session_state.page = "Parkinson's Disease"
-            st.rerun()
     
     # Technical Specifications Section
     st.markdown("""
@@ -482,6 +478,24 @@ def home_page():
         st.markdown("© 2024 Medical AI Assistant | Version 1.0.0")
     with col2:
         st.markdown("Developed with ❤️ for healthcare professionals")
+
+    # Add new sections
+    st.markdown("## 📊 Additional Features")
+    
+    # Create tabs for different features
+    tab1, tab2, tab3 = st.tabs(["📈 History", "🔍 Analysis", "💡 Recommendations"])
+    
+    with tab1:
+        show_patient_history()
+        export_report()
+    
+    with tab2:
+        show_risk_factors_analysis()
+        show_trends_analysis()
+    
+    with tab3:
+        show_recommendations()
+        compare_assessments()
 
 def breast_cancer_prediction():
     add_home_button()
@@ -945,11 +959,303 @@ def parkinsons_prediction():
         except Exception as e:
             st.error(f"Error making prediction: {str(e)}")
 
+def show_patient_history():
+    """Display patient history visualization with interactive elements"""
+    st.markdown("### 📈 Patient History Tracker")
+    
+    # Add date range selector
+    col1, col2 = st.columns(2)
+    with col1:
+        start_date = st.date_input("From Date", value=datetime(2024, 1, 1))
+    with col2:
+        end_date = st.date_input("To Date", value=datetime.now())
+    
+    # Add assessment type filter
+    assessment_types = ["All", "Breast Cancer", "Diabetes", "Heart Disease", "Parkinson's"]
+    selected_type = st.multiselect("Filter by Assessment Type", assessment_types, default=["All"])
+    
+    # Mock data for demonstration - Fixed: Ensure all arrays have same length
+    num_records = 14  # Define a fixed number of records
+    history_data = {
+        'Date': pd.date_range(start='2024-01-01', periods=num_records, freq='W'),
+        'Risk Score': np.random.uniform(0.2, 0.8, size=num_records),
+        'Assessment Type': np.random.choice(assessment_types[1:], size=num_records),
+        'Status': np.random.choice(['Normal', 'Warning', 'Critical'], size=num_records),
+        'Doctor': np.random.choice(['Dr. Smith', 'Dr. Johnson', 'Dr. Williams'], size=num_records)
+    }
+    df = pd.DataFrame(history_data)
+    
+    # Create tabs for different views
+    tab1, tab2 = st.tabs(["📊 Trend Analysis", "📋 Detailed Records"])
+    
+    with tab1:
+        # Plot interactive trend
+        fig = px.line(df, x='Date', y='Risk Score', color='Assessment Type',
+                     title='Risk Score Trends Over Time')
+        fig.update_layout(height=400)
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # Add summary metrics
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Average Risk Score", f"{df['Risk Score'].mean():.2f}", 
+                     delta=f"{(df['Risk Score'].iloc[-1] - df['Risk Score'].iloc[0]):.2f}")
+        with col2:
+            st.metric("Assessments", len(df), delta="↑2 from last month")
+        with col3:
+            st.metric("Critical Alerts", len(df[df['Status'] == 'Critical']), 
+                     delta="-1 from last month")
+    
+    with tab2:
+        # Add search and filter options
+        search = st.text_input("Search records...")
+        filtered_df = df[df.astype(str).apply(lambda x: x.str.contains(search, case=False)).any(axis=1)]
+        
+        # Display detailed records with styling
+        st.dataframe(
+            filtered_df.style.apply(lambda x: ['background-color: #ffcccc' if v == 'Critical' 
+                                             else 'background-color: #ffffcc' if v == 'Warning'
+                                             else '' for v in x], subset=['Status'])
+        )
+
+def export_report():
+    """Generate and export comprehensive assessment report"""
+    st.markdown("### 📄 Export Assessment Report")
+    
+    # Report configuration
+    col1, col2 = st.columns(2)
+    with col1:
+        report_format = st.selectbox(
+            "Report Format",
+            ["PDF", "CSV", "JSON", "Excel"]
+        )
+        include_graphs = st.checkbox("Include Visualizations", value=True)
+    with col2:
+        report_type = st.selectbox(
+            "Report Type",
+            ["Summary", "Detailed", "Technical"]
+        )
+        include_recommendations = st.checkbox("Include Recommendations", value=True)
+    
+    # Generate report
+    if st.button("Generate Report", type="primary"):
+        with st.spinner("Generating comprehensive report..."):
+            # Simulate report generation
+            progress_bar = st.progress(0)
+            for i in range(100):
+                time.sleep(0.01)
+                progress_bar.progress(i + 1)
+            
+            # Show success message
+            st.success(f"Report generated successfully in {report_format} format!")
+            
+            # Provide download option
+            if report_format == "PDF":
+                mime = "application/pdf"
+            elif report_format == "CSV":
+                mime = "text/csv"
+            elif report_format == "JSON":
+                mime = "application/json"
+            else:
+                mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            
+            st.download_button(
+                label=f"📥 Download {report_format} Report",
+                data=b"Sample report data",  # Replace with actual report generation
+                file_name=f"medical_report_{datetime.now().strftime('%Y%m%d')}_{report_type.lower()}.{report_format.lower()}",
+                mime=mime,
+                key="download_report"
+            )
+
+def show_risk_factors_analysis():
+    """Display comprehensive risk factors analysis with interactive elements"""
+    st.markdown("### 🔍 Risk Factors Analysis")
+    
+    # Create tabs for different analyses
+    tab1, tab2 = st.tabs(["📊 Risk Factor Impact", "🔄 Correlation Analysis"])
+    
+    with tab1:
+        # Mock data
+        risk_factors = {
+            'Factor': ['Age', 'BMI', 'Blood Pressure', 'Glucose Level', 'Family History',
+                      'Smoking', 'Physical Activity', 'Diet', 'Stress Level'],
+            'Impact': [0.8, 0.6, 0.7, 0.9, 0.5, 0.65, 0.55, 0.45, 0.75],
+            'Category': ['Demographics', 'Physical', 'Physical', 'Medical', 'Medical',
+                        'Lifestyle', 'Lifestyle', 'Lifestyle', 'Lifestyle']
+        }
+        df = pd.DataFrame(risk_factors)
+        
+        # Add category filter
+        categories = ['All'] + list(df['Category'].unique())
+        selected_category = st.selectbox("Filter by Category", categories)
+        
+        if selected_category != 'All':
+            df_filtered = df[df['Category'] == selected_category]
+        else:
+            df_filtered = df
+        
+        # Create interactive bar chart
+        fig = px.bar(df_filtered, x='Factor', y='Impact', color='Category',
+                    title='Risk Factors Impact Analysis',
+                    labels={'Impact': 'Impact Score (0-1)'})
+        st.plotly_chart(fig, use_container_width=True)
+    
+    with tab2:
+        # Create correlation matrix visualization
+        correlation_data = np.random.rand(len(df), len(df))
+        fig = px.imshow(correlation_data,
+                       labels=dict(x="Risk Factors", y="Risk Factors"),
+                       x=df['Factor'],
+                       y=df['Factor'],
+                       title="Risk Factors Correlation Matrix")
+        st.plotly_chart(fig, use_container_width=True)
+
+def show_recommendations():
+    """Display personalized health recommendations with interactive elements"""
+    st.markdown("### 💡 Personalized Recommendations")
+    
+    # Add risk profile selector
+    risk_profile = st.select_slider(
+        "Risk Profile",
+        options=["Low", "Moderate", "High"],
+        value="Moderate"
+    )
+    
+    # Recommendations based on risk profile
+    recommendations = {
+        "Lifestyle Changes": {
+            "Low": [
+                "Maintain regular exercise routine",
+                "Continue balanced diet",
+                "Regular sleep schedule"
+            ],
+            "Moderate": [
+                "Increase exercise to 45 minutes daily",
+                "Reduce processed food intake",
+                "Improve sleep quality"
+            ],
+            "High": [
+                "Structured exercise program with supervision",
+                "Strict dietary guidelines",
+                "Sleep monitoring and improvement"
+            ]
+        },
+        "Medical Follow-up": {
+            "Low": [
+                "Annual check-ups",
+                "Regular blood pressure monitoring",
+                "Basic health screenings"
+            ],
+            "Moderate": [
+                "Semi-annual check-ups",
+                "Monthly blood pressure monitoring",
+                "Comprehensive screenings"
+            ],
+            "High": [
+                "Quarterly check-ups",
+                "Weekly blood pressure monitoring",
+                "Advanced health screenings"
+            ]
+        },
+        "Risk Management": {
+            "Low": [
+                "Basic health monitoring",
+                "Stress management awareness",
+                "General health education"
+            ],
+            "Moderate": [
+                "Regular health monitoring",
+                "Active stress management",
+                "Specific health education"
+            ],
+            "High": [
+                "Intensive health monitoring",
+                "Professional stress management",
+                "Specialized health education"
+            ]
+        }
+    }
+    
+    # Display recommendations with expandable sections
+    for category, risk_levels in recommendations.items():
+        with st.expander(f"📌 {category}", expanded=True):
+            for item in risk_levels[risk_profile]:
+                st.markdown(f"• {item}")
+            
+            # Add progress tracking
+            if st.checkbox(f"Track {category.lower()} progress", key=category):
+                st.slider(f"{category} Adherence", 0, 100, 50, key=f"adherence_{category}")
+                st.progress(50)
+
+def show_trends_analysis():
+    """Display comprehensive health trends analysis"""
+    st.markdown("### 📊 Health Trends Analysis")
+    
+    # Date range selector
+    col1, col2 = st.columns(2)
+    with col1:
+        start_date = st.date_input("Start Date", value=datetime(2024, 1, 1), key="trends_start")
+    with col2:
+        end_date = st.date_input("End Date", value=datetime.now(), key="trends_end")
+    
+    # Mock data
+    dates = pd.date_range(start='2024-01-01', end='2024-04-01', freq='D')
+    trends_data = {
+        'Date': dates,
+        'Blood Pressure': np.random.normal(120, 5, len(dates)),
+        'Glucose Level': np.random.normal(100, 3, len(dates)),
+        'BMI': np.random.normal(25, 0.5, len(dates)),
+        'Cholesterol': np.random.normal(180, 10, len(dates)),
+        'Heart Rate': np.random.normal(75, 3, len(dates))
+    }
+    df = pd.DataFrame(trends_data)
+    
+    # Metric selector
+    metrics = list(df.columns[1:])
+    selected_metrics = st.multiselect("Select metrics to analyze", metrics, default=[metrics[0]])
+    
+    if selected_metrics:
+        # Create interactive line chart
+        fig = px.line(df, x='Date', y=selected_metrics,
+                     title='Health Metrics Trends Over Time')
+        fig.update_layout(height=400)
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # Add statistical analysis
+        st.markdown("#### Statistical Analysis")
+        col1, col2, col3 = st.columns(3)
+        for metric in selected_metrics:
+            with col1:
+                st.metric(f"{metric} Average", 
+                         f"{df[metric].mean():.1f}",
+                         delta=f"{df[metric].iloc[-1] - df[metric].iloc[0]:.1f}")
+            with col2:
+                st.metric(f"{metric} Min",
+                         f"{df[metric].min():.1f}")
+            with col3:
+                st.metric(f"{metric} Max",
+                         f"{df[metric].max():.1f}")
+
+def compare_assessments():
+    """Compare different assessment results"""
+    st.markdown("### 🔄 Compare Assessments")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### Previous Assessment")
+        st.metric(label="Risk Score", value="75%", delta="-15%")
+        st.date_input("Assessment Date", value=datetime(2024, 1, 1))
+        
+    with col2:
+        st.markdown("#### Current Assessment")
+        st.metric(label="Risk Score", value="60%", delta="-5%")
+        st.date_input("Assessment Date", value=datetime.now())
+
 def main():
     # Initialize session state if not exists
     if "page" not in st.session_state:
         st.session_state.page = "Home"
-        show_loading_page()
     
     # Sidebar
     with st.sidebar:
@@ -970,6 +1276,7 @@ def main():
         current_page = st.session_state.page
         current_key = next(k for k, v in pages.items() if v == current_page)
         
+        # Navigation radio buttons
         selected = st.radio(
             "🧭 Navigation",
             list(pages.keys()),
@@ -979,8 +1286,6 @@ def main():
         # Update page when selection changes
         if pages[selected] != st.session_state.page:
             st.session_state.page = pages[selected]
-            st.rerun()
-            
     
     # Main content routing
     try:
@@ -997,7 +1302,6 @@ def main():
     except Exception as e:
         st.error(f"Error loading page: {str(e)}")
         st.session_state.page = "Home"
-        st.rerun()
 
 if __name__ == "__main__":
     main() 
