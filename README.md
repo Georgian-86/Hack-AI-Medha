@@ -1,4 +1,4 @@
-# Advanced Mediacl Diseases Prediction System
+# Advanced Medical Diseases Prediction System
 
 Welcome to **Medi-Predict**, a cutting-edge project designed to explore and innovate in the field of Artificial Intelligence. This repository serves as a collaborative space for developers, researchers, and AI enthusiasts to contribute to the development of AI-driven solutions that address real-world challenges.
 
