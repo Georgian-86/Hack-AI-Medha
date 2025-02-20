@@ -30,603 +30,53 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Update the CSS section with better colors
+# Add this updated CSS at the beginning of the file
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
-
-    /* Base styles */
-    html, body, [class*="css"] {
-        font-family: 'Roboto', sans-serif;
-        color: #2C3E50;
-    }
-    
-    /* Animated containers */
-    .stButton>button {
-        width: 100%;
-        background: linear-gradient(135deg, #3498DB, #2980B9);
-        color: white;
-        font-weight: 500;
-        border: none;
-        border-radius: 10px;
-        padding: 0.75rem 1rem;
-        transition: all 0.3s ease;
-    }
-    
-    .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-        background: linear-gradient(135deg, #2980B9, #2C3E50);
-    }
-    
-    /* Card container */
-    .card {
-        padding: 1.5rem;
-        border-radius: 15px;
-        background: white;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin: 1rem 0;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid #E0E0E0;
-    }
-    
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        border-color: #3498DB;
-    }
-    
-    .card h3 {
-        color: #2C3E50;
-        margin-bottom: 1rem;
-        font-weight: 600;
-    }
-    
-    .card p {
-        color: #7F8C8D;
-        font-size: 1rem;
-        line-height: 1.5;
-    }
-    
-    /* Headers */
-    h1 {
-        background: linear-gradient(135deg, #3498DB, #2C3E50);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-        margin-bottom: 2rem;
-    }
-    
-    h2 {
-        color: #2C3E50;
-        font-weight: 600;
-        margin: 1.5rem 0;
-    }
-    
-    h3 {
-        color: #34495E;
-        font-weight: 500;
-    }
-    
-    /* Metrics styling */
-    div[data-testid="stMetricValue"] {
-        color: #2980B9;
-        font-weight: 600;
-    }
-    
-    div[data-testid="stMetricDelta"] {
-        color: #27AE60;
-    }
-    
-    /* Sidebar styling */
-    .css-1d391kg, [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #1E3A8A 0%, #1E40AF 100%);
-        padding: 2rem 1rem;
-    }
-    
-    /* Sidebar title color */
-    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h1 {
-        color: white !important;
-        background: none;
-        -webkit-background-clip: unset;
-        -webkit-text-fill-color: unset;
-    }
-    
-    /* Sidebar caption */
-    [data-testid="stSidebar"] .css-10trblm {
-        color: #E5E7EB !important;
-        opacity: 0.8;
-    }
-    
-    /* Radio buttons in navigation */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > label {
-        color: white !important;
-        font-weight: 500;
-    }
-    
-    /* Radio button options */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 4px;
-        padding: 10px;
-        margin: 4px 0;
-        color: #E5E7EB !important;
-        transition: all 0.2s ease;
-    }
-    
-    /* Hover effect for radio options */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateX(5px);
-    }
-    
-    /* Selected radio option */
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] > label[data-checked="true"] {
-        background: rgba(255, 255, 255, 0.2);
-        border-left: 4px solid #3498DB;
-    }
-    
-    /* Navigation section header */
-    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
-        color: #E5E7EB !important;
-        font-size: 0.8em;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-    }
-    
-    /* Sidebar image container */
-    [data-testid="stSidebar"] [data-testid="stImage"] {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 1rem;
-        border-radius: 10px;
-        margin-bottom: 1rem;
-    }
-    
-    /* Scrollbar styling for sidebar */
-    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-        scrollbar-width: thin;
-        scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-    }
-    
-    [data-testid="stSidebar"] [data-testid="stVerticalBlock"]::-webkit-scrollbar {
-        width: 6px;
-    }
-    
-    [data-testid="stSidebar"] [data-testid="stVerticalBlock"]::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    
-    [data-testid="stSidebar"] [data-testid="stVerticalBlock"]::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 255, 255, 0.2);
-        border-radius: 3px;
-    }
-    
-    /* Tab styling */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 2rem;
-        border-bottom: 2px solid #E0E0E0;
-    }
-    
-    .stTabs [data-baseweb="tab"] {
-        height: 3rem;
-        white-space: pre-wrap;
-        background-color: transparent;
-        border-radius: 5px;
-        color: #2980B9;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-    
-    .stTabs [aria-selected="true"] {
-        background-color: rgba(41, 128, 185, 0.1);
-        color: #2C3E50;
-    }
-    
-    /* Alert/Message styling */
-    .stAlert {
-        background-color: #F8FAFC;
-        border: 1px solid #E0E0E0;
-        border-radius: 10px;
-        padding: 1rem;
-    }
-    
-    .element-container.css-1e5imcs.e1tzin5v1 {
-        background-color: #F8FAFC;
-        padding: 1rem;
-        border-radius: 10px;
-    }
-    
-    /* Success message */
-    .success {
-        background-color: #D4EDDA;
-        color: #155724;
-        border: 1px solid #C3E6CB;
-        border-radius: 10px;
-        padding: 1rem;
-    }
-    
-    /* Warning message */
-    .warning {
-        background-color: #FFF3CD;
-        color: #856404;
-        border: 1px solid #FFEEBA;
-        border-radius: 10px;
-        padding: 1rem;
-    }
-    
-    /* Error message */
-    .error {
-        background-color: #F8D7DA;
-        color: #721C24;
-        border: 1px solid #F5C6CB;
-        border-radius: 10px;
-        padding: 1rem;
-    }
-    
-    /* Expander styling */
-    .streamlit-expanderHeader {
-        background-color: white;
-        border-radius: 10px;
-        border: 1px solid #E0E0E0;
-        transition: all 0.3s ease;
-    }
-    
-    .streamlit-expanderHeader:hover {
-        background-color: #F8FAFC;
-        border-color: #3498DB;
-    }
-    
-    /* DataTable styling */
-    .dataframe {
-        border: 1px solid #E0E0E0;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-    
-    .dataframe th {
-        background-color: #F8FAFC;
-        color: #2C3E50;
-        font-weight: 600;
-        padding: 0.75rem 1rem;
-    }
-    
-    .dataframe td {
-        padding: 0.75rem 1rem;
-        border-top: 1px solid #E0E0E0;
-    }
-    
-    /* Slider styling */
-    .stSlider {
-        padding: 1rem 0;
-    }
-    
-    .stSlider > div > div {
-        background-color: #3498DB;
-    }
-    
-    /* Selectbox styling */
-    .stSelectbox {
-        color: #2C3E50;
-    }
-    
-    .stSelectbox > div > div {
-        background-color: white;
-        border: 1px solid #E0E0E0;
-        border-radius: 5px;
-    }
-
-    /* Loading animation */
-    .loading-container {
-        text-align: center;
-        padding: 2rem;
-        animation: fadeIn 0.5s ease-out;
-    }
-
-    .loading-spinner {
-        width: 50px;
-        height: 50px;
-        border: 5px solid #f3f3f3;
-        border-top: 5px solid #3498db;
-        border-radius: 50%;
-        margin: 20px auto;
-        animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    /* Success message animation */
+    /* Original styling */
     .success-message {
-        background: linear-gradient(135deg, #28a745, #20c997);
+        background-color: #28a745;
         color: white;
-        padding: 1rem;
-        border-radius: 10px;
-        margin: 1rem 0;
-        display: flex;
-        align-items: center;
-        animation: slideIn 0.5s ease-out;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
     }
 
     .success-icon {
-        font-size: 1.5rem;
-        margin-right: 1rem;
-        background: white;
-        color: #28a745;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
+        font-size: 20px;
+        margin-right: 10px;
     }
 
-    /* Feature cards */
     .features-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
+        gap: 1rem;
         margin: 2rem 0;
     }
 
     .feature-card {
-        background: linear-gradient(135deg, #2C3E50, #3498DB);
-        padding: 2rem;
-        border-radius: 15px;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         text-align: center;
-        transition: all 0.3s ease;
-        animation: fadeIn 0.5s ease-out;
-        color: white;
-    }
-
-    .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        background: linear-gradient(135deg, #3498DB, #2C3E50);
-    }
-
-    .feature-card h3 {
-        color: white;
-        margin: 1rem 0;
-        font-weight: 600;
-        font-size: 1.5rem;
-    }
-
-    .feature-card p {
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 1rem;
-        line-height: 1.5;
     }
 
     .feature-icon {
-        font-size: 2.5rem;
+        font-size: 2rem;
         margin-bottom: 1rem;
-        display: block;
-        background: rgba(255, 255, 255, 0.1);
-        width: 70px;
-        height: 70px;
-        line-height: 70px;
-        border-radius: 50%;
-        margin: 0 auto 1rem auto;
-        transition: all 0.3s ease;
     }
 
-    .feature-card:hover .feature-icon {
-        transform: scale(1.1);
-        background: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Pulse animation for important elements */
-    .pulse {
-        animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
-    }
-
-    /* Slide animations */
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    /* Staggered animation classes */
-    .stagger-1 { animation: slideIn 0.5s ease-out 0.1s both; }
-    .stagger-2 { animation: slideIn 0.5s ease-out 0.2s both; }
-    .stagger-3 { animation: slideIn 0.5s ease-out 0.3s both; }
-    .stagger-4 { animation: slideIn 0.5s ease-out 0.4s both; }
-    .stagger-5 { animation: slideIn 0.5s ease-out 0.5s both; }
-    
-    /* Fade up animation */
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    /* Slide in from sides */
-    @keyframes slideInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    
-    @keyframes slideInRight {
-        from {
-            opacity: 0;
-            transform: translateX(50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-    
-    /* Apply animations to specific elements */
-    .title-animation {
-        animation: fadeUp 0.8s ease-out;
-    }
-    
-    .subtitle-animation {
-        animation: fadeUp 0.8s ease-out 0.2s both;
-    }
-    
-    .card-left {
-        animation: slideInLeft 0.8s ease-out both;
-    }
-    
-    .card-right {
-        animation: slideInRight 0.8s ease-out both;
-    }
-    
-    /* Sequential feature cards */
-    .features-grid {
-        opacity: 0;
-        animation: fadeIn 0.5s ease-out 0.6s forwards;
-    }
-    
-    .feature-card:nth-child(1) {
-        animation: slideIn 0.5s ease-out 0.7s both;
-    }
-    
-    .feature-card:nth-child(2) {
-        animation: slideIn 0.5s ease-out 0.9s both;
-    }
-    
-    .feature-card:nth-child(3) {
-        animation: slideIn 0.5s ease-out 1.1s both;
-    }
-
-    /* Professional animations */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes slideInFromLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes slideInFromRight {
-        from {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    /* Apply animations to specific elements */
-    .main-title {
-        animation: fadeInUp 0.8s ease-out;
-    }
-
-    .welcome-text {
-        animation: fadeInUp 0.8s ease-out 0.2s both;
-    }
-
-    .feature-card:nth-child(1) {
-        animation: slideInFromLeft 0.8s ease-out 0.3s both;
-    }
-
-    .feature-card:nth-child(2) {
-        animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
-
-    .feature-card:nth-child(3) {
-        animation: slideInFromRight 0.8s ease-out 0.5s both;
+    .card {
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1rem;
     }
 
     .tool-section {
-        animation: fadeInUp 0.8s ease-out 0.6s both;
-    }
-
-    .metrics-section {
-        animation: fadeInUp 0.8s ease-out 0.7s both;
-    }
-
-    .info-section {
-        animation: fadeInUp 0.8s ease-out 0.8s both;
-    }
-
-    /* Card hover effects */
-    .card {
-        transition: all 0.3s ease;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        border-color: #3498DB;
-    }
-
-    /* Button hover animation */
-    .stButton>button {
-        transition: all 0.3s ease;
-    }
-
-    .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
-    }
-
-    /* Smooth section transitions */
-    .section-transition {
-        transition: all 0.5s ease;
-    }
-
-    /* Loading animation */
-    @keyframes gradientBG {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    .loading-bg {
-        background: linear-gradient(-45deg, #3498db, #2980b9, #2c3e50, #3498db);
-        background-size: 400% 400%;
-        animation: gradientBG 15s ease infinite;
+        margin: 2rem 0;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -702,142 +152,336 @@ def show_feature_cards():
 def home_page():
     show_loading_page()
     
-    # Animated title
-    st.markdown('<div style="animation: fadeIn 1s ease-out">', unsafe_allow_html=True)
-    st.title("🏥 Medical AI Assistant")
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Welcome message with animation
+    # Hero section with gradient background
     st.markdown("""
-        <div style="animation: slideIn 0.5s ease-out">
-        <h2>Welcome to the Medical Prediction System</h2>
-        <p>This advanced AI-powered system helps medical professionals assess various health conditions 
-        using machine learning algorithms trained on extensive medical datasets.</p>
+        <div style="
+            padding: 2rem;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            margin-bottom: 2rem;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        ">
+            <h1 style="font-size: 3rem; margin-bottom: 1rem;">🏥 Medical AI Assistant</h1>
+            <p style="font-size: 1.2rem; opacity: 0.9;">
+                Advanced AI-powered diagnostics for healthcare professionals
+            </p>
         </div>
     """, unsafe_allow_html=True)
     
-    # Show feature cards
-    show_feature_cards()
+    # Quick stats cards
+    st.markdown("""
+        <div style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        ">
+            <div style="
+                background: white;
+                padding: 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                border-top: 4px solid #2ecc71;
+            ">
+                <h3 style="color: #2ecc71; margin: 0;">96.5%</h3>
+                <p style="color: #666; margin: 0;">Accuracy Rate</p>
+            </div>
+            <div style="
+                background: white;
+                padding: 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                border-top: 4px solid #3498db;
+            ">
+                <h3 style="color: #3498db; margin: 0;">5,200+</h3>
+                <p style="color: #666; margin: 0;">Assessments</p>
+            </div>
+            <div style="
+                background: white;
+                padding: 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                border-top: 4px solid #e74c3c;
+            ">
+                <h3 style="color: #e74c3c; margin: 0;">0.5s</h3>
+                <p style="color: #666; margin: 0;">Response Time</p>
+            </div>
+            <div style="
+                background: white;
+                padding: 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                border-top: 4px solid #9b59b6;
+            ">
+                <h3 style="color: #9b59b6; margin: 0;">1,200+</h3>
+                <p style="color: #666; margin: 0;">Active Users</p>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
     
-    # Tools section with animated cards
-    st.markdown('<div class="tool-section">', unsafe_allow_html=True)
-    st.subheader("🔧 Available Assessment Tools")
+    # Available tools section
+    st.markdown("""
+        <h2 style="
+            text-align: center;
+            margin: 2rem 0;
+            color: #2c3e50;
+        ">Available Assessment Tools</h2>
+    """, unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     
     with col1:
-        with st.container():
-            st.markdown("""
-                <div class="card">
-                    <h3>🔬 Breast Cancer Assessment</h3>
-                    <p>Analyzes cell nuclei characteristics to assess cancer risk.</p>
-                </div>
-            """, unsafe_allow_html=True)
-            if st.button("Start Breast Cancer Assessment"):
-                st.session_state.page = "Breast Cancer"
-                st.rerun()
-        
-        with st.container():
-            st.markdown("""
-                <div class="card">
-                    <h3>❤️ Heart Disease Assessment</h3>
-                    <p>Evaluates cardiovascular health indicators.</p>
-                </div>
-            """, unsafe_allow_html=True)
-            if st.button("Start Heart Disease Assessment"):
-                st.session_state.page = "Heart Disease"
-                st.rerun()
+        st.markdown("""
+            <div style="
+                background: white;
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin-bottom: 1rem;
+                border-left: 5px solid #e74c3c;
+            ">
+                <h3 style="color: #e74c3c;">🔬 Breast Cancer Assessment</h3>
+                <p style="color: #666;">Advanced cellular analysis using machine learning to assess cancer risk with high accuracy.</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("Start Breast Cancer Assessment", key="breast"):
+            st.session_state.page = "Breast Cancer"
+            st.rerun()
+            
+        st.markdown("""
+            <div style="
+                background: white;
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin-bottom: 1rem;
+                border-left: 5px solid #3498db;
+            ">
+                <h3 style="color: #3498db;">❤️ Heart Disease Assessment</h3>
+                <p style="color: #666;">Comprehensive cardiovascular risk analysis using multiple health indicators.</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("Start Heart Disease Assessment", key="heart"):
+            st.session_state.page = "Heart Disease"
+            st.rerun()
     
     with col2:
-        with st.container():
-            st.markdown("""
-                <div class="card">
-                    <h3>🩺 Diabetes Assessment</h3>
-                    <p>Analyzes various health metrics to assess diabetes risk.</p>
-                </div>
-            """, unsafe_allow_html=True)
-            if st.button("Start Diabetes Assessment"):
-                st.session_state.page = "Diabetes"
-                st.rerun()
-        
-        with st.container():
-            st.markdown("""
-                <div class="card">
-                    <h3>🧠 Parkinson's Assessment</h3>
-                    <p>Examines voice patterns to detect early signs.</p>
-                </div>
-            """, unsafe_allow_html=True)
-            if st.button("Start Parkinson's Assessment"):
-                st.session_state.page = "Parkinson's Disease"
-                st.rerun()
-    
-    # System Overview (only once)
-    st.markdown("---")
-    st.subheader("📊 System Overview")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Total Assessments", "5.2k", "↑12%")
-    with col2:
-        st.metric("Accuracy", "96.5%", "↑1.2%")
-    with col3:
-        st.metric("Active Users", "1.2k", "↑15%")
-    with col4:
-        st.metric("Response Time", "0.5s", "↓0.1s")
-    
-    # Technical Information
-    st.markdown("---")
-    st.subheader("🔍 Technical Information")
-    
-    tech_col1, tech_col2 = st.columns(2)
-    
-    with tech_col1:
         st.markdown("""
-        ### Data Sources
-        - Breast Cancer Wisconsin Dataset
-        - Pima Indians Diabetes Database
-        - Heart Disease UCI Dataset
-        - Parkinson's Disease Dataset
-        """)
-    
-    with tech_col2:
+            <div style="
+                background: white;
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin-bottom: 1rem;
+                border-left: 5px solid #2ecc71;
+            ">
+                <h3 style="color: #2ecc71;">🩺 Diabetes Assessment</h3>
+                <p style="color: #666;">Predictive analysis of diabetes risk based on key health metrics and indicators.</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("Start Diabetes Assessment", key="diabetes"):
+            st.session_state.page = "Diabetes"
+            st.rerun()
+            
         st.markdown("""
-        ### Technologies Used
-        - Machine Learning: scikit-learn
-        - Web Interface: Streamlit
-        - Data Processing: pandas, numpy
-        - Version Control: Git
-        """)
+            <div style="
+                background: white;
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin-bottom: 1rem;
+                border-left: 5px solid #9b59b6;
+            ">
+                <h3 style="color: #9b59b6;">🧠 Parkinson's Assessment</h3>
+                <p style="color: #666;">Advanced voice pattern analysis for early detection of Parkinson's disease.</p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("Start Parkinson's Assessment", key="parkinsons"):
+            st.session_state.page = "Parkinson's Disease"
+            st.rerun()
     
-    # Research & Publications
-    st.markdown("---")
-    with st.expander("📚 Research & Publications"):
-        st.markdown("""
-        ### Related Research Papers
-        1. "Machine Learning in Medical Diagnosis" (2023)
-        2. "AI Applications in Healthcare" (2022)
-        3. "Early Disease Detection Using ML" (2023)
-        
-        ### Key Findings
-        - 96.5% accuracy in breast cancer detection
-        - 94.2% accuracy in diabetes prediction
-        - 91.8% accuracy in heart disease assessment
-        - 93.5% accuracy in Parkinson's detection
-        
-        ### Methodology
-        Our system employs advanced machine learning algorithms trained on extensive medical datasets, 
-        ensuring reliable and accurate predictions for various medical conditions.
-        """)
-    
-    # Footer
-    st.markdown("---")
+    # Technical Specifications Section
     st.markdown("""
-        <div style="text-align: center; color: #666; padding: 20px;">
-            <p>Developed with ❤️ for healthcare professionals</p>
-            <p>Version 1.0.0 | © 2024 Medical AI Assistant</p>
+        <h2 style="text-align: center; color: #2c3e50; margin: 2rem 0;">Technical Specifications</h2>
+        <div style="
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        ">
+            <div style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            ">
+                <div>
+                    <h3 style="color: #3498db;">🔬 Data Sources</h3>
+                    <ul style="color: #666; list-style-type: none; padding-left: 0;">
+                        <li style="margin: 0.5rem 0;">• Breast Cancer Wisconsin Dataset</li>
+                        <li style="margin: 0.5rem 0;">• Pima Indians Diabetes Database</li>
+                        <li style="margin: 0.5rem 0;">• Heart Disease UCI Dataset</li>
+                        <li style="margin: 0.5rem 0;">• Parkinson's Disease Dataset</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #3498db;">⚙️ Technologies Used</h3>
+                    <ul style="color: #666; list-style-type: none; padding-left: 0;">
+                        <li style="margin: 0.5rem 0;">• Machine Learning: scikit-learn</li>
+                        <li style="margin: 0.5rem 0;">• Web Interface: Streamlit</li>
+                        <li style="margin: 0.5rem 0;">• Data Processing: pandas, numpy</li>
+                        <li style="margin: 0.5rem 0;">• Version Control: Git</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #3498db;">📊 Model Performance</h3>
+                    <ul style="color: #666; list-style-type: none; padding-left: 0;">
+                        <li style="margin: 0.5rem 0;">• Breast Cancer Detection: 96.5%</li>
+                        <li style="margin: 0.5rem 0;">• Diabetes Prediction: 94.2%</li>
+                        <li style="margin: 0.5rem 0;">• Heart Disease Assessment: 91.8%</li>
+                        <li style="margin: 0.5rem 0;">• Parkinson's Detection: 93.5%</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     """, unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Features Section
+    st.markdown("""
+        <h2 style="text-align: center; color: #2c3e50; margin: 2rem 0;">Why Choose Our Platform?</h2>
+        <div style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        ">
+            <div style="
+                background: white;
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            ">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
+                <h3 style="color: #2c3e50;">High Accuracy</h3>
+                <p style="color: #666;">Advanced ML algorithms with 96.5% accuracy in predictions</p>
+            </div>
+            <div style="
+                background: white;
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            ">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
+                <h3 style="color: #2c3e50;">Real-time Analysis</h3>
+                <p style="color: #666;">Get instant predictions and comprehensive risk assessments</p>
+            </div>
+            <div style="
+                background: white;
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            ">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
+                <h3 style="color: #2c3e50;">Secure Analysis</h3>
+                <p style="color: #666;">Your data is processed securely and privately</p>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Research & Publications Section
+    st.markdown("## Research & Publications")
+    
+    # Create three columns for the sections
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("### 📚 Recent Papers")
+        with st.container():
+            st.markdown("""
+                **Machine Learning in Medical Diagnosis** (2023)  
+                *Impact on early disease detection and prevention*
+            """)
+            st.markdown("""
+                **AI Applications in Healthcare** (2022)  
+                *Transforming patient care through technology*
+            """)
+            st.markdown("""
+                **Early Disease Detection Using ML** (2023)  
+                *Predictive analytics in healthcare*
+            """)
+    
+    with col2:
+        st.markdown("### 🔍 Methodology")
+        with st.container():
+            st.info("""
+                Our system employs advanced machine learning algorithms trained on extensive medical datasets, 
+                ensuring reliable and accurate predictions for various medical conditions.
+
+                All models undergo rigorous testing and validation procedures, with continuous monitoring 
+                and updates to maintain high accuracy levels.
+            """)
+    
+    with col3:
+        st.markdown("### 🎯 Future Developments")
+        
+        # Future Development Cards
+        with st.container():
+            st.success("**Integration**\n\nElectronic health records integration for seamless data flow")
+            
+            st.success("**Visualization**\n\nAdvanced visualization tools for better insight into predictions")
+            
+            st.success("**Mobile Access**\n\nDevelopment of mobile applications for on-the-go access")
+
+    # Add some spacing
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Footer Section
+    st.markdown("---")  # Add a divider
+    
+    # Header
+    st.header("Ready to get started?")
+    st.write("Choose any assessment tool above to begin your analysis")
+    
+    # Create three columns for contact, resources, and legal
+    contact_col, resources_col, legal_col = st.columns(3)
+    
+    with contact_col:
+        st.subheader("Contact")
+        st.markdown("""
+            📧 **Email:** support@medicalai.com  
+            📞 **Phone:** +1 (555) 123-4567
+        """)
+    
+    with resources_col:
+        st.subheader("Resources")
+        st.markdown("""
+            📚 [Documentation](https://docs.medicalai.com)  
+            🔧 [API Reference](https://api.medicalai.com)
+        """)
+    
+    with legal_col:
+        st.subheader("Legal")
+        st.markdown("""
+            📜 [Privacy Policy](https://privacy.medicalai.com)  
+            ⚖️ [Terms of Service](https://terms.medicalai.com)
+        """)
+    
+    # Copyright and version info
+    st.markdown("---")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("© 2024 Medical AI Assistant | Version 1.0.0")
+    with col2:
+        st.markdown("Developed with ❤️ for healthcare professionals")
 
 def breast_cancer_prediction():
     add_home_button()
@@ -877,35 +521,92 @@ def breast_cancer_prediction():
             mean_compactness = st.slider("Mean Compactness", 0.02, 0.35, 0.1, help="Average of perimeter^2 / area - 1.0")
             mean_concavity = st.slider("Mean Concavity", 0.0, 0.5, 0.1, help="Average severity of concave portions of the contour")
             mean_concave_points = st.slider("Mean Concave Points", 0.0, 0.2, 0.1, help="Average number of concave portions of the contour")
+    
+    with tab2:
+        st.markdown("### Detailed Measurements")
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            radius_mean = st.number_input("Radius (mean)", 6.0, 28.0, 14.0, help="Mean of distances from center to points on the perimeter")
+            texture_mean = st.number_input("Texture (mean)", 9.0, 40.0, 14.0, help="Standard deviation of gray-scale values")
+            perimeter_mean = st.number_input("Perimeter (mean)", 40.0, 190.0, 90.0, help="Mean size of the core tumor")
+            area_mean = st.number_input("Area (mean)", 140.0, 2500.0, 550.0, help="Mean area of the tumor")
+            smoothness_mean = st.number_input("Smoothness (mean)", 0.05, 0.16, 0.1, help="Mean of local variation in radius lengths")
+            compactness_mean = st.number_input("Compactness (mean)", 0.02, 0.35, 0.1, help="Mean of perimeter^2 / area - 1.0")
+            concavity_mean = st.number_input("Concavity (mean)", 0.0, 0.5, 0.1, help="Mean of severity of concave portions")
+            concave_points_mean = st.number_input("Concave points (mean)", 0.0, 0.2, 0.1, help="Mean number of concave portions")
+            symmetry_mean = st.number_input("Symmetry (mean)", 0.1, 0.3, 0.2, help="Mean symmetry of the tumor")
+            fractal_dimension_mean = st.number_input("Fractal dimension (mean)", 0.05, 0.1, 0.06, help="Mean fractal dimension")
+        
+        with col2:
+            radius_se = st.number_input("Radius (SE)", 0.1, 2.0, 0.4, help="Standard error of distances from center to points")
+            texture_se = st.number_input("Texture (SE)", 0.2, 4.0, 1.0, help="Standard error of gray-scale values")
+            perimeter_se = st.number_input("Perimeter (SE)", 1.0, 20.0, 5.0, help="Standard error of perimeter")
+            area_se = st.number_input("Area (SE)", 6.0, 540.0, 40.0, help="Standard error of area")
+            smoothness_se = st.number_input("Smoothness (SE)", 0.001, 0.03, 0.007, help="Standard error of smoothness")
+            compactness_se = st.number_input("Compactness (SE)", 0.002, 0.135, 0.025, help="Standard error of compactness")
+            concavity_se = st.number_input("Concavity (SE)", 0.0, 0.396, 0.03, help="Standard error of concavity")
+            concave_points_se = st.number_input("Concave points (SE)", 0.0, 0.05, 0.01, help="Standard error of concave points")
+            symmetry_se = st.number_input("Symmetry (SE)", 0.008, 0.079, 0.02, help="Standard error of symmetry")
+            fractal_dimension_se = st.number_input("Fractal dimension (SE)", 0.001, 0.029, 0.003, help="Standard error of fractal dimension")
+        
+        with col3:
+            radius_worst = st.number_input("Radius (worst)", 7.0, 36.0, 16.0, help="Worst radius")
+            texture_worst = st.number_input("Texture (worst)", 12.0, 50.0, 21.0, help="Worst texture")
+            perimeter_worst = st.number_input("Perimeter (worst)", 50.0, 250.0, 107.0, help="Worst perimeter")
+            area_worst = st.number_input("Area (worst)", 185.0, 4250.0, 750.0, help="Worst area")
+            smoothness_worst = st.number_input("Smoothness (worst)", 0.07, 0.22, 0.13, help="Worst smoothness")
+            compactness_worst = st.number_input("Compactness (worst)", 0.03, 1.06, 0.25, help="Worst compactness")
+            concavity_worst = st.number_input("Concavity (worst)", 0.0, 1.25, 0.27, help="Worst concavity")
+            concave_points_worst = st.number_input("Concave points (worst)", 0.0, 0.29, 0.11, help="Worst concave points")
+            symmetry_worst = st.number_input("Symmetry (worst)", 0.15, 0.66, 0.29, help="Worst symmetry")
+            fractal_dimension_worst = st.number_input("Fractal dimension (worst)", 0.055, 0.207, 0.083, help="Worst fractal dimension")
 
+    # Add analyze button outside tabs to work for both
     if st.button("Analyze Risk", help="Click to analyze breast cancer risk"):
         with st.spinner('Analyzing samples...'):
-            time.sleep(1)  # Simulate processing
             try:
-                # Create input data array
-                input_data = np.array([
-                    mean_radius, mean_texture, mean_perimeter, mean_area, mean_smoothness,
-                    mean_compactness, mean_concavity, mean_concave_points, 0.2, 0.06,
-                    0.4, 0.4, 2.0, 20.0, 0.01, 0.02, 0.02, 0.01, 0.02, 0.003,
-                    16.0, 16.0, 100.0, 700.0, 0.12, 0.15, 0.15, 0.1, 0.25, 0.08
-                ]).reshape(1, -1)
+                # Get input data based on active tab
+                if tab1._active:
+                    input_data = np.array([
+                        mean_radius, mean_texture, mean_perimeter, mean_area, mean_smoothness,
+                        mean_compactness, mean_concavity, mean_concave_points, 0.2, 0.06,
+                        0.4, 0.4, 2.0, 20.0, 0.01, 0.02, 0.02, 0.01, 0.02, 0.003,
+                        16.0, 16.0, 100.0, 700.0, 0.12, 0.15, 0.15, 0.1, 0.25, 0.08
+                    ]).reshape(1, -1)
+                else:
+                    input_data = np.array([
+                        radius_mean, texture_mean, perimeter_mean, area_mean, smoothness_mean,
+                        compactness_mean, concavity_mean, concave_points_mean, symmetry_mean, fractal_dimension_mean,
+                        radius_se, texture_se, perimeter_se, area_se, smoothness_se,
+                        compactness_se, concavity_se, concave_points_se, symmetry_se, fractal_dimension_se,
+                        radius_worst, texture_worst, perimeter_worst, area_worst, smoothness_worst,
+                        compactness_worst, concavity_worst, concave_points_worst, symmetry_worst, fractal_dimension_worst
+                    ]).reshape(1, -1)
                 
                 prediction, similar_cases, similar_outcomes, distances = model.predict(input_data)
                 
+                # Show prediction results
                 if prediction[0] == 0:
-                    st.error("⚠️ High Risk Assessment")
+                    st.error("⚠️ High Risk of Breast Cancer")
                     st.warning(
                         "The analysis indicates characteristics commonly associated with malignant breast masses."
                     )
                     
-                    # Show risk factors
+                    # Show risk factors based on active tab
                     st.subheader("Risk Factors Identified")
-                    if mean_radius > 15:
-                        st.warning(f"• Mean radius ({mean_radius:.2f}) is elevated")
-                    if mean_concave_points > 0.05:
-                        st.warning(f"• Mean concave points ({mean_concave_points:.3f}) are high")
+                    if tab1._active:
+                        if mean_radius > 15:
+                            st.warning(f"• Mean radius ({mean_radius:.2f}) is elevated")
+                        if mean_concave_points > 0.05:
+                            st.warning(f"• Mean concave points ({mean_concave_points:.3f}) are high")
+                    else:
+                        if radius_worst > 20:
+                            st.warning(f"• Worst radius ({radius_worst:.2f}) is significantly elevated")
+                        if concave_points_worst > 0.15:
+                            st.warning(f"• Worst concave points ({concave_points_worst:.3f}) are very high")
                 else:
-                    st.success("✅ Low Risk Assessment")
+                    st.success("✅ Low Risk of Breast Cancer")
                     st.info(
                         "The analysis indicates characteristics commonly associated with benign breast masses."
                     )
@@ -1279,6 +980,7 @@ def main():
         if pages[selected] != st.session_state.page:
             st.session_state.page = pages[selected]
             st.rerun()
+            
     
     # Main content routing
     try:
